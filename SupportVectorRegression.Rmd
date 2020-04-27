@@ -1,0 +1,69 @@
+---
+title: "Support Vector Regression (SVR)"
+output:
+  html_document:
+    theme: flatly
+    highlight: pygments
+    toc_depth: 5
+    # code_download: true
+    # code_folding: show
+    toc: true
+    toc_float:
+      collapsed: false
+    # df_print: kable
+---
+
+#### Importing the dataset
+```{r}
+dataset = read.csv('https://pastebin.com/raw/L3DqdzAt')
+dataset = dataset[2:3]
+```
+
+
+#### Fitting SVR to the dataset
+
+```{r}
+library(e1071)
+regressor = svm(formula = Salary ~ .,
+                data = dataset,
+                type = 'eps-regression',
+                kernel = 'radial')
+```
+
+
+#### Predicting a new result
+```{r}
+y_pred = predict(regressor, data.frame(Level = 6.5))
+```
+
+
+#### Visualising the SVR results
+
+```{r}
+library(ggplot2)
+ggplot() +
+  geom_point(aes(x = dataset$Level, y = dataset$Salary),
+             colour = 'red') +
+  geom_line(aes(x = dataset$Level, y = predict(regressor, newdata = dataset)),
+            colour = 'blue') +
+  ggtitle('Truth or Bluff (SVR)') +
+  xlab('Level') +
+  ylab('Salary')
+```
+
+
+#### Visualising the SVR results (for higher resolution and smoother curve)
+
+```{r}
+library(ggplot2)
+x_grid = seq(min(dataset$Level), max(dataset$Level), 0.1)
+ggplot() +
+  geom_point(aes(x = dataset$Level, y = dataset$Salary),
+             colour = 'red') +
+  geom_line(aes(x = x_grid, y = predict(regressor, newdata = data.frame(Level = x_grid))),
+            colour = 'blue') +
+  ggtitle('Truth or Bluff (SVR)') +
+  xlab('Level') +
+  ylab('Salary')
+```
+

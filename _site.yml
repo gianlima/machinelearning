@@ -5,11 +5,36 @@ navbar:
   left:
     - text: "Home"
       href: https://gianlima.github.io/
-    - text: "GLM 1-10"
-  right:
-    - text: GitHub
-      icon: fa-github fa-lg
-      href: https://github.com/gianlima/r-exams-tutorial
+    - text: "Regressão"
+      menu:
+      - text: "Regressão Simples"
+        href: SimpleLinearRegression.html
+      - text: "Regressão Linear Múltipla"
+        href: MultipleLinearRegression.html
+      - text: "Regressão Polinomial"
+        href: PolynomialRegression.html
+      - text: "Regressão Random Forest"
+        href: RandomForestRegression.html
+      - text: "Regressão Support Vector"
+        href: SupportVectorRegression.html
+      - text: "Regressão Decision Tree"
+        href: DecisionTreeRegression.html
+    - text: "Classificação"
+      menu:
+      - text: "Regressão Logística"
+        href: LogisticRegression.html
+      - text: "K-Nearest Neighbors (K-NN)"
+        href: KNearestNeighbors.html
+      - text: "Support Vector Machine (SVM)"
+        href: SupportVectorMachine.html
+      - text: "Kernel SVM"
+        href: KernelSVM.html
+      - text: "Naive Bayes"
+        href: NaiveBayes.html
+      - text: "Decision Tree Classification"
+        href: DecisionTreeClassification.html
+      - text: "Random Forest Classification"
+        href: RandomForestClassification.html
 output:
   html_document:
     theme: flatly

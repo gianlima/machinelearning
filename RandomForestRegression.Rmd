@@ -1,0 +1,53 @@
+---
+title: "Random Forest Regression"
+output:
+  html_document:
+    theme: flatly
+    highlight: pygments
+    toc_depth: 5
+    ################ code_download: true
+    ################ code_folding: show
+    toc: true
+    toc_float:
+      collapsed: false
+    ################ df_print: kable
+---
+
+#### Importing the dataset
+```{r}
+dataset = read.csv('https://pastebin.com/raw/L3DqdzAt')
+dataset = dataset[2:3]
+dataset
+```
+
+
+#### Fitting Random Forest Regression to the dataset
+
+```{r}
+library(randomForest)
+set.seed(1234)
+regressor = randomForest(x = dataset[-2],
+                         y = dataset$Salary,
+                         ntree = 500)
+```
+
+#### Predicting a new result with Random Forest Regression
+```{r}
+y_pred = predict(regressor, data.frame(Level = 6.5))
+```
+
+
+#### Visualising the Random Forest Regression results (higher resolution)
+```{r}
+library(ggplot2)
+x_grid = seq(min(dataset$Level), max(dataset$Level), 0.01)
+ggplot() +
+  geom_point(aes(x = dataset$Level, y = dataset$Salary),
+             colour = 'red') +
+  geom_line(aes(x = x_grid, y = predict(regressor, newdata = data.frame(Level = x_grid))),
+            colour = 'blue') +
+  ggtitle('Truth or Bluff (Random Forest Regression)') +
+  xlab('Level') +
+  ylab('Salary')
+```
+

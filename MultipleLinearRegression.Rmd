@@ -1,0 +1,57 @@
+---
+title: "Multiple Linear Regression"
+output:
+  html_document:
+    theme: flatly
+    highlight: pygments
+    toc_depth: 5
+    # code_download: true
+    # code_folding: show
+    toc: true
+    toc_float:
+      collapsed: false
+    # df_print: kable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Importing the dataset
+```{r}
+dataset = read.csv('https://pastebin.com/raw/UaFmFF4j')
+```
+
+
+#### Encoding categorical data
+```{r}
+dataset$State = factor(dataset$State,
+                       levels = c('New York', 'California', 'Florida'),
+                       labels = c(1, 2, 3))
+```
+
+
+#### Splitting the dataset into the Training set and Test set
+
+```{r}
+library(caTools)
+set.seed(123)
+split = sample.split(dataset$Profit, SplitRatio = 0.8)
+training_set = subset(dataset, split == TRUE)
+test_set = subset(dataset, split == FALSE)
+```
+
+
+#### Fitting Multiple Linear Regression to the Training set
+```{r}
+regressor = lm(formula = Profit ~ .,
+               data = training_set)
+```
+
+
+#### Predicting the Test set results
+```{r}
+y_pred = predict(regressor, newdata = test_set)
+head(y_pred)
+```
+
