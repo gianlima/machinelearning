@@ -433,7 +433,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="SimpleLinearRegression.html">Regressão Simples</a>
+      <a href="SimpleLinearRegression.html">Regressão Linear Simples</a>
     </li>
     <li>
       <a href="MultipleLinearRegression.html">Regressão Linear Múltipla</a>
@@ -510,23 +510,31 @@ div.tocify {
 <div id="importando-os-dados" class="section level4">
 <h4>Importando os dados</h4>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>dataset =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://pastebin.com/raw/ZxJ3s0LW&#39;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">plot</span>(dataset)</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">head</span>(dataset)</span></code></pre></div>
+<pre><code>##   YearsExperience Salary
+## 1             1.1  39343
+## 2             1.3  46205
+## 3             1.5  37731
+## 4             2.0  43525
+## 5             2.2  39891
+## 6             2.9  56642</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">plot</span>(dataset)</span></code></pre></div>
 <p><img src="SimpleLinearRegression_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
 <div id="separando-os-dados-em-training_set-e-test_set" class="section level4">
 <h4>Separando os dados em <code>training_set</code> e <code>test_set</code></h4>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(caTools)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Cria um vetor TRUE e FALSE. A quantidade de TRUE será o valor do SplitRatio</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>split =<span class="st"> </span><span class="kw">sample.split</span>(dataset<span class="op">$</span>Salary, <span class="dt">SplitRatio =</span> <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>) </span>
-<span id="cb2-5"><a href="#cb2-5"></a>training_set =<span class="st"> </span><span class="kw">subset</span>(dataset, split <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>) <span class="co"># 2/3 dos dados serão usados para TREINO</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>test_set =<span class="st"> </span><span class="kw">subset</span>(dataset, split <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>) <span class="co"># 1/3 dos dados serão usados para TESTE</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">library</span>(caTools)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># Cria um vetor TRUE e FALSE. A quantidade de TRUE será o valor do SplitRatio</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>split =<span class="st"> </span><span class="kw">sample.split</span>(dataset<span class="op">$</span>Salary, <span class="dt">SplitRatio =</span> <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>) </span>
+<span id="cb4-5"><a href="#cb4-5"></a>training_set =<span class="st"> </span><span class="kw">subset</span>(dataset, split <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>) <span class="co"># 2/3 dos dados serão usados para TREINO</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>test_set =<span class="st"> </span><span class="kw">subset</span>(dataset, split <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>) <span class="co"># 1/3 dos dados serão usados para TESTE</span></span></code></pre></div>
 </div>
 <div id="ajustando-o-modelo-com-os-dados-de-training_set" class="section level4">
 <h4>Ajustando o modelo com os dados de <code>training_set</code></h4>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>regressor =<span class="st"> </span><span class="kw">lm</span>(<span class="dt">formula =</span> Salary <span class="op">~</span><span class="st"> </span>YearsExperience,</span>
-<span id="cb3-2"><a href="#cb3-2"></a>               <span class="dt">data =</span> training_set)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">summary</span>(regressor)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>regressor =<span class="st"> </span><span class="kw">lm</span>(<span class="dt">formula =</span> Salary <span class="op">~</span><span class="st"> </span>YearsExperience,</span>
+<span id="cb5-2"><a href="#cb5-2"></a>               <span class="dt">data =</span> training_set)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">summary</span>(regressor)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Salary ~ YearsExperience, data = training_set)
@@ -549,8 +557,8 @@ div.tocify {
 <div id="predizendo-os-salários" class="section level4">
 <h4>Predizendo os salários</h4>
 <p>Predizendo os salários usando a variável <code>YearsExperience</code> da tabela <code>test_set</code> usando o modelo da tabela de treino <code>training_set</code></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>y_pred =<span class="st"> </span><span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> test_set)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>y_pred</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>y_pred =<span class="st"> </span><span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> test_set)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>y_pred</span></code></pre></div>
 <pre><code>##         2         4         5         8        11        16        20 
 ##  37766.77  44322.33  46195.35  55560.43  62115.99  71481.07  81782.66 
 ##        21        24        26 
@@ -559,29 +567,29 @@ div.tocify {
 <div id="gráfico-com-a-predição-dos-dados-de-training_set" class="section level4">
 <h4>Gráfico com a predição dos dados de <code>training_set</code></h4>
 <p>Pontos são os dados reais de <code>training_set</code>. Linha do modelo de regressão em azul.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">ggplot</span>() <span class="op">+</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> training_set<span class="op">$</span>YearsExperience, <span class="dt">y =</span> training_set<span class="op">$</span>Salary),</span>
-<span id="cb7-4"><a href="#cb7-4"></a>             <span class="dt">colour =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> training_set<span class="op">$</span>YearsExperience, <span class="dt">y =</span> <span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> training_set)),</span>
-<span id="cb7-6"><a href="#cb7-6"></a>            <span class="dt">colour =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Salário vs Experiência (Training set)&#39;</span>) <span class="op">+</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Years of experience&#39;</span>) <span class="op">+</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;Salary&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> training_set<span class="op">$</span>YearsExperience, <span class="dt">y =</span> training_set<span class="op">$</span>Salary),</span>
+<span id="cb9-4"><a href="#cb9-4"></a>             <span class="dt">colour =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> training_set<span class="op">$</span>YearsExperience, <span class="dt">y =</span> <span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> training_set)),</span>
+<span id="cb9-6"><a href="#cb9-6"></a>            <span class="dt">colour =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Salário vs Experiência (Training set)&#39;</span>) <span class="op">+</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Years of experience&#39;</span>) <span class="op">+</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;Salary&#39;</span>)</span></code></pre></div>
 <p><img src="SimpleLinearRegression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="gráfico-com-a-predição-dos-dados-de-test_set" class="section level4">
 <h4>Gráfico com a predição dos dados de <code>test_set</code></h4>
 <p>Pontos são os dados reais de <code>test_set</code>. Linha do modelo de regressão em azul.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">ggplot</span>() <span class="op">+</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> test_set<span class="op">$</span>YearsExperience, <span class="dt">y =</span> test_set<span class="op">$</span>Salary),</span>
-<span id="cb8-4"><a href="#cb8-4"></a>             <span class="dt">colour =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> training_set<span class="op">$</span>YearsExperience, <span class="dt">y =</span> <span class="kw">predict</span>(regressor)),</span>
-<span id="cb8-6"><a href="#cb8-6"></a>            <span class="dt">colour =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Salário vs Experiência (Test set)&#39;</span>) <span class="op">+</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Years of experience&#39;</span>) <span class="op">+</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;Salary&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> test_set<span class="op">$</span>YearsExperience, <span class="dt">y =</span> test_set<span class="op">$</span>Salary),</span>
+<span id="cb10-4"><a href="#cb10-4"></a>             <span class="dt">colour =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> training_set<span class="op">$</span>YearsExperience, <span class="dt">y =</span> <span class="kw">predict</span>(regressor)),</span>
+<span id="cb10-6"><a href="#cb10-6"></a>            <span class="dt">colour =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Salário vs Experiência (Test set)&#39;</span>) <span class="op">+</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Years of experience&#39;</span>) <span class="op">+</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;Salary&#39;</span>)</span></code></pre></div>
 <p><img src="SimpleLinearRegression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 

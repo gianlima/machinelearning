@@ -32,6 +32,7 @@ assim como o lucro (`profit`), variável dependente.
 
 ```{r}
 dataset = read.csv('https://pastebin.com/raw/UaFmFF4j')
+head(dataset)
 str(dataset)
 plot(dataset)
 ```

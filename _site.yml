@@ -7,7 +7,7 @@ navbar:
       href: https://gianlima.github.io/
     - text: "Regressão"
       menu:
-      - text: "Regressão Simples"
+      - text: "Regressão Linear Simples"
         href: SimpleLinearRegression.html
       - text: "Regressão Linear Múltipla"
         href: MultipleLinearRegression.html

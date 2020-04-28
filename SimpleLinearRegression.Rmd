@@ -27,6 +27,7 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 #### Importando os dados
 ```{r}
 dataset = read.csv('https://pastebin.com/raw/ZxJ3s0LW')
+head(dataset)
 plot(dataset)
 ```
 
