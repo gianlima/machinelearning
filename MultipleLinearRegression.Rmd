@@ -1,55 +1,73 @@
 ---
-title: "Multiple Linear Regression"
+title: "Regressão Linear Múltipla"
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '5'
   html_document:
-    theme: flatly
     highlight: pygments
+    theme: flatly
+    toc: yes
     toc_depth: 5
-    # code_download: true
-    # code_folding: show
-    toc: true
     toc_float:
-      collapsed: false
-    # df_print: kable
+      collapsed: no
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 ```
 
-#### Importing the dataset
+#### Informações iniciais
+
+Há 50 empresas com gastos em: 
+
+- R&D Spend  
+- Administration  
+- Marketing Spend  
+- State  
+
+assim como o lucro (`profit`), variável dependente.
+
+#### Importando os dados
+
 ```{r}
 dataset = read.csv('https://pastebin.com/raw/UaFmFF4j')
+str(dataset)
+plot(dataset)
 ```
 
 
-#### Encoding categorical data
+#### Codificar a variável categórica `State`
+
 ```{r}
 dataset$State = factor(dataset$State,
-                       levels = c('New York', 'California', 'Florida'),
-                       labels = c(1, 2, 3))
+                       levels = c('New York', 'California', 'Florida'), labels = c(1, 2, 3))
 ```
 
 
-#### Splitting the dataset into the Training set and Test set
+#### Separando os dados em `training_set` e `test_set`
 
 ```{r}
 library(caTools)
 set.seed(123)
-split = sample.split(dataset$Profit, SplitRatio = 0.8)
-training_set = subset(dataset, split == TRUE)
-test_set = subset(dataset, split == FALSE)
+split = sample.split(dataset$Profit, SplitRatio = 0.8) 
+training_set = subset(dataset, split == TRUE) # 80% dos dados serão usados para TREINO
+test_set = subset(dataset, split == FALSE) # 20% dos dados serão usados para TESTE
 ```
 
 
-#### Fitting Multiple Linear Regression to the Training set
+#### Criar o modelo 
+
+Criar o modelo dos dados de `training_set` sendo `profit` a variável dependente e todas as outras são independentes
+
 ```{r}
 regressor = lm(formula = Profit ~ .,
                data = training_set)
+summary(regressor)
 ```
 
 
-#### Predicting the Test set results
+#### Predição dos lucros de `test_set` com o modelo de `trainig_set`
 ```{r}
 y_pred = predict(regressor, newdata = test_set)
 head(y_pred)

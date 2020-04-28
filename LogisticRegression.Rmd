@@ -13,6 +13,10 @@ output:
     # df_print: kable
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
 #### Importing the dataset
 ```{r}
 dataset = read.csv('https://pastebin.com/raw/ibZZwG51')

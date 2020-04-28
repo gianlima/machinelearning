@@ -12,7 +12,7 @@
 
 
 
-<title>Multiple Linear Regression</title>
+<title>Regressão Linear Múltipla</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -494,38 +494,84 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Multiple Linear Regression</h1>
+<h1 class="title toc-ignore">Regressão Linear Múltipla</h1>
 
 </div>
 
 
-<div id="importing-the-dataset" class="section level4">
-<h4>Importing the dataset</h4>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>dataset =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://pastebin.com/raw/UaFmFF4j&#39;</span>)</span></code></pre></div>
+<div id="informações-iniciais" class="section level4">
+<h4>Informações iniciais</h4>
+<p>Há 50 empresas com gastos em:</p>
+<ul>
+<li>R&amp;D Spend<br />
+</li>
+<li>Administration<br />
+</li>
+<li>Marketing Spend<br />
+</li>
+<li>State</li>
+</ul>
+<p>assim como o lucro (<code>profit</code>), variável dependente.</p>
 </div>
-<div id="encoding-categorical-data" class="section level4">
-<h4>Encoding categorical data</h4>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dataset<span class="op">$</span>State =<span class="st"> </span><span class="kw">factor</span>(dataset<span class="op">$</span>State,</span>
-<span id="cb2-2"><a href="#cb2-2"></a>                       <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&#39;New York&#39;</span>, <span class="st">&#39;California&#39;</span>, <span class="st">&#39;Florida&#39;</span>),</span>
-<span id="cb2-3"><a href="#cb2-3"></a>                       <span class="dt">labels =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div id="importando-os-dados" class="section level4">
+<h4>Importando os dados</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>dataset =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://pastebin.com/raw/UaFmFF4j&#39;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">str</span>(dataset)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    50 obs. of  5 variables:
+##  $ R.D.Spend      : num  165349 162598 153442 144372 142107 ...
+##  $ Administration : num  136898 151378 101146 118672 91392 ...
+##  $ Marketing.Spend: num  471784 443899 407935 383200 366168 ...
+##  $ State          : Factor w/ 3 levels &quot;California&quot;,&quot;Florida&quot;,..: 3 1 2 3 2 3 1 2 3 1 ...
+##  $ Profit         : num  192262 191792 191050 182902 166188 ...</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">plot</span>(dataset)</span></code></pre></div>
+<p><img src="MultipleLinearRegression_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
-<div id="splitting-the-dataset-into-the-training-set-and-test-set" class="section level4">
-<h4>Splitting the dataset into the Training set and Test set</h4>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(caTools)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>split =<span class="st"> </span><span class="kw">sample.split</span>(dataset<span class="op">$</span>Profit, <span class="dt">SplitRatio =</span> <span class="fl">0.8</span>)</span>
-<span id="cb3-4"><a href="#cb3-4"></a>training_set =<span class="st"> </span><span class="kw">subset</span>(dataset, split <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)</span>
-<span id="cb3-5"><a href="#cb3-5"></a>test_set =<span class="st"> </span><span class="kw">subset</span>(dataset, split <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div id="codificar-a-variável-categórica-state" class="section level4">
+<h4>Codificar a variável categórica <code>State</code></h4>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>dataset<span class="op">$</span>State =<span class="st"> </span><span class="kw">factor</span>(dataset<span class="op">$</span>State,</span>
+<span id="cb4-2"><a href="#cb4-2"></a>                       <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&#39;New York&#39;</span>, <span class="st">&#39;California&#39;</span>, <span class="st">&#39;Florida&#39;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
 </div>
-<div id="fitting-multiple-linear-regression-to-the-training-set" class="section level4">
-<h4>Fitting Multiple Linear Regression to the Training set</h4>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>regressor =<span class="st"> </span><span class="kw">lm</span>(<span class="dt">formula =</span> Profit <span class="op">~</span><span class="st"> </span>.,</span>
-<span id="cb4-2"><a href="#cb4-2"></a>               <span class="dt">data =</span> training_set)</span></code></pre></div>
+<div id="separando-os-dados-em-training_set-e-test_set" class="section level4">
+<h4>Separando os dados em <code>training_set</code> e <code>test_set</code></h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(caTools)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>split =<span class="st"> </span><span class="kw">sample.split</span>(dataset<span class="op">$</span>Profit, <span class="dt">SplitRatio =</span> <span class="fl">0.8</span>) </span>
+<span id="cb5-4"><a href="#cb5-4"></a>training_set =<span class="st"> </span><span class="kw">subset</span>(dataset, split <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>) <span class="co"># 80% dos dados serão usados para TREINO</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>test_set =<span class="st"> </span><span class="kw">subset</span>(dataset, split <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>) <span class="co"># 20% dos dados serão usados para TESTE</span></span></code></pre></div>
 </div>
-<div id="predicting-the-test-set-results" class="section level4">
-<h4>Predicting the Test set results</h4>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>y_pred =<span class="st"> </span><span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> test_set)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">head</span>(y_pred)</span></code></pre></div>
+<div id="criar-o-modelo" class="section level4">
+<h4>Criar o modelo</h4>
+<p>Criar o modelo dos dados de <code>training_set</code> sendo <code>profit</code> a variável dependente e todas as outras são independentes</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>regressor =<span class="st"> </span><span class="kw">lm</span>(<span class="dt">formula =</span> Profit <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb6-2"><a href="#cb6-2"></a>               <span class="dt">data =</span> training_set)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw">summary</span>(regressor)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Profit ~ ., data = training_set)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -33128  -4865      5   6098  18065 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      4.965e+04  7.637e+03   6.501 1.94e-07 ***
+## R.D.Spend        7.986e-01  5.604e-02  14.251 6.70e-16 ***
+## Administration  -2.942e-02  5.828e-02  -0.505    0.617    
+## Marketing.Spend  3.268e-02  2.127e-02   1.537    0.134    
+## State2           1.213e+02  3.751e+03   0.032    0.974    
+## State3           2.376e+02  4.127e+03   0.058    0.954    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 9908 on 34 degrees of freedom
+## Multiple R-squared:  0.9499, Adjusted R-squared:  0.9425 
+## F-statistic:   129 on 5 and 34 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="predição-dos-lucros-de-test_set-com-o-modelo-de-trainig_set" class="section level4">
+<h4>Predição dos lucros de <code>test_set</code> com o modelo de <code>trainig_set</code></h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>y_pred =<span class="st"> </span><span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> test_set)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">head</span>(y_pred)</span></code></pre></div>
 <pre><code>##        4        5        8       11       16       20 
 ## 173981.1 172655.6 160250.0 135513.9 146059.4 114151.0</code></pre>
 </div>

@@ -506,41 +506,42 @@ div.tocify {
 </div>
 <div id="fitting-svr-to-the-dataset" class="section level4">
 <h4>Fitting SVR to the dataset</h4>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(e1071)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>regressor =<span class="st"> </span><span class="kw">svm</span>(<span class="dt">formula =</span> Salary <span class="op">~</span><span class="st"> </span>.,</span>
-<span id="cb2-3"><a href="#cb2-3"></a>                <span class="dt">data =</span> dataset,</span>
-<span id="cb2-4"><a href="#cb2-4"></a>                <span class="dt">type =</span> <span class="st">&#39;eps-regression&#39;</span>,</span>
-<span id="cb2-5"><a href="#cb2-5"></a>                <span class="dt">kernel =</span> <span class="st">&#39;radial&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(e1071)</span></code></pre></div>
+<pre><code>## Warning: package &#39;e1071&#39; was built under R version 3.6.3</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>regressor =<span class="st"> </span><span class="kw">svm</span>(<span class="dt">formula =</span> Salary <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb4-2"><a href="#cb4-2"></a>                <span class="dt">data =</span> dataset,</span>
+<span id="cb4-3"><a href="#cb4-3"></a>                <span class="dt">type =</span> <span class="st">&#39;eps-regression&#39;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4"></a>                <span class="dt">kernel =</span> <span class="st">&#39;radial&#39;</span>)</span></code></pre></div>
 </div>
 <div id="predicting-a-new-result" class="section level4">
 <h4>Predicting a new result</h4>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>y_pred =<span class="st"> </span><span class="kw">predict</span>(regressor, <span class="kw">data.frame</span>(<span class="dt">Level =</span> <span class="fl">6.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>y_pred =<span class="st"> </span><span class="kw">predict</span>(regressor, <span class="kw">data.frame</span>(<span class="dt">Level =</span> <span class="fl">6.5</span>))</span></code></pre></div>
 </div>
 <div id="visualising-the-svr-results" class="section level4">
 <h4>Visualising the SVR results</h4>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">ggplot</span>() <span class="op">+</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> dataset<span class="op">$</span>Level, <span class="dt">y =</span> dataset<span class="op">$</span>Salary),</span>
-<span id="cb4-4"><a href="#cb4-4"></a>             <span class="dt">colour =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> dataset<span class="op">$</span>Level, <span class="dt">y =</span> <span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> dataset)),</span>
-<span id="cb4-6"><a href="#cb4-6"></a>            <span class="dt">colour =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Truth or Bluff (SVR)&#39;</span>) <span class="op">+</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Level&#39;</span>) <span class="op">+</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;Salary&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> dataset<span class="op">$</span>Level, <span class="dt">y =</span> dataset<span class="op">$</span>Salary),</span>
+<span id="cb6-4"><a href="#cb6-4"></a>             <span class="dt">colour =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> dataset<span class="op">$</span>Level, <span class="dt">y =</span> <span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> dataset)),</span>
+<span id="cb6-6"><a href="#cb6-6"></a>            <span class="dt">colour =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Truth or Bluff (SVR)&#39;</span>) <span class="op">+</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Level&#39;</span>) <span class="op">+</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;Salary&#39;</span>)</span></code></pre></div>
 <p><img src="SupportVectorRegression_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="visualising-the-svr-results-for-higher-resolution-and-smoother-curve" class="section level4">
 <h4>Visualising the SVR results (for higher resolution and smoother curve)</h4>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>x_grid =<span class="st"> </span><span class="kw">seq</span>(<span class="kw">min</span>(dataset<span class="op">$</span>Level), <span class="kw">max</span>(dataset<span class="op">$</span>Level), <span class="fl">0.1</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">ggplot</span>() <span class="op">+</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> dataset<span class="op">$</span>Level, <span class="dt">y =</span> dataset<span class="op">$</span>Salary),</span>
-<span id="cb5-5"><a href="#cb5-5"></a>             <span class="dt">colour =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x_grid, <span class="dt">y =</span> <span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">Level =</span> x_grid))),</span>
-<span id="cb5-7"><a href="#cb5-7"></a>            <span class="dt">colour =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Truth or Bluff (SVR)&#39;</span>) <span class="op">+</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Level&#39;</span>) <span class="op">+</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;Salary&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>x_grid =<span class="st"> </span><span class="kw">seq</span>(<span class="kw">min</span>(dataset<span class="op">$</span>Level), <span class="kw">max</span>(dataset<span class="op">$</span>Level), <span class="fl">0.1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> dataset<span class="op">$</span>Level, <span class="dt">y =</span> dataset<span class="op">$</span>Salary),</span>
+<span id="cb7-5"><a href="#cb7-5"></a>             <span class="dt">colour =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x_grid, <span class="dt">y =</span> <span class="kw">predict</span>(regressor, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">Level =</span> x_grid))),</span>
+<span id="cb7-7"><a href="#cb7-7"></a>            <span class="dt">colour =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Truth or Bluff (SVR)&#39;</span>) <span class="op">+</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Level&#39;</span>) <span class="op">+</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;Salary&#39;</span>)</span></code></pre></div>
 <p><img src="SupportVectorRegression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 
