@@ -35,6 +35,12 @@ navbar:
         href: DecisionTreeClassification.html
       - text: "Random Forest Classification"
         href: RandomForestClassification.html
+    - text: "Clustering"
+      menu:
+      - text: "K-Means Clustering"
+        href: KMeansClustering.html
+      - text: "Hierarchical Clustering"
+        href: HierarchicalClustering.html
 output:
   html_document:
     theme: flatly
